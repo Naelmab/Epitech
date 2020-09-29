@@ -1,4 +1,4 @@
 #!/bin/bash
 git add --all
 git commit -m $1
-git push oriqine master
+git push -u origin master
