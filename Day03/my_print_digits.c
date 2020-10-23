@@ -1,21 +1,17 @@
 /*
 ** EPITECH PROJECT, 2020
-** number
+** my_print_digits.c
 ** File description:
 ** number order
 */
+void my_putchar(char c);
 
-int my_putchar(char c)
-{
-    write(1, &c, 1);
-}
-
-int main(void)
+int my_digits(void)
 {
     char  print = 48;
-
-    while(print < 58){
+    while (print < 58) {
         my_putchar(print);
-        print++;}
+        print++;
+    }
     return (0);
 }

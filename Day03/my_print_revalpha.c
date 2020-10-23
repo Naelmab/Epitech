@@ -1,22 +1,16 @@
 /*
 ** EPITECH PROJECT, 2020
-** revalpha
+** my_print_revalpha.c
 ** File description:
 ** revalpha
 */
-
-int my_putchar(char c)
-{
-    write(1, &c, 1);
-}
-
-int main(void)
+int my_print_revalpha(void)
 {
     char  print = 122;
-
-    while(print > 96){
+    while (print > 96) {
         my_putchar(print);
-        print--;}
+        print--;
+    }
     return (0);
 }
 

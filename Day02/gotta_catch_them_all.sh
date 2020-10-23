@@ -1,2 +1,2 @@
 #!/bin/bash
-grep "^$1" | wc -l
+cut -d ":" -f 5 | grep  -c " $1"
