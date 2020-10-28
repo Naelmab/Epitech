@@ -12,9 +12,14 @@
 
 #include "my.h"
 
-void my_putchar(char c)
-{
-    write(1, &c, 1);
+int brakets(char **str) {
+    if (**str == '(') {
+        (*str)++;
+        int res = OTHEROP(str);
+        (*str)++;
+        return (res);
+    }
+    return (chartoint(str));
 }
 
 int my_put_nbr(int nb)
@@ -23,15 +28,12 @@ int my_put_nbr(int nb)
 
     if (nb < -2147483647)
         return (0);
-    if (nb < 0)
-    {
+    if (nb < 0) {
         my_putchar ('-');
         nb = nb * -1;
     }
-    if (nb >= 0)
-    {
-        if (nb > 9)
-        {
+    if (nb >= 0) {
+        if (nb > 9) {
             ret = (nb % 10);
             nb = nb / 10;
             my_put_nbr(nb);
@@ -42,15 +44,23 @@ int my_put_nbr(int nb)
     return (0);
 }
 
+int OTHEROP(char **str) {
+    int op0 = ALLFACT(str);
+
+    ADD(str, &op0);
+    SUB(str, &op0);
+
+    return (op0);
+}
+
 int ALLFACT(char **str) {
     int op3 = brakets(str);
-    int op3bis = op3;
 
-    MODULO(str, &op3bis);
-    DIVIS(str, &op3bis);
-    MULTI(str, &op3bis);
+    MODULO(str, &op3);
+    DIVIS(str, &op3);
+    MULTI(str, &op3);
 
-    return (op3bis);
+    return (op3);
 }
 
 int chartoint(char **str)
@@ -62,15 +72,4 @@ int chartoint(char **str)
         (*str)++;
     }
     return (number);
-}
-
-int brakets(char **str)
-{
-    if (**str == '(') {
-        ++(*str);
-        int res = ADD(str) + SUB(str);
-        ++(*str);
-        return (res);
-    }
-    return (chartoint(str));
 }

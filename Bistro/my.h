@@ -17,14 +17,14 @@ int main(int ac, char **av);
 int eval_expr(char const *str);
 int chartoint (char **str);
 int brakets(char **str);
-int factors(char **str);
-int ADD(char **str);
-int SUB(char **str);
+void ADD(char **str, int * op0);
+void SUB(char **str, int * op0);
 void MULTI(char **str, int * op3);
 void DIVIS(char **str, int * op3);
 void MODULO(char **str, int * op3);
 int my_put_nbr(int nb);
 void my_putchar(char c);
 int ALLFACT(char ** str);
+int OTHEROP(char **str);
 
 #endif

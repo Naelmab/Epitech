@@ -8,9 +8,9 @@
 NAME	=	eval_expr
 
 SOURCE	=	main.c          \
-		eval_expr.c     \
-		tool.c          \
-		toolop.c
+    		eval_expr.c     \
+	    	tool.c          \
+		    toolop.c
 
 OBJ 	=	$(SOURCE:.c=.o)
 

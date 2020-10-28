@@ -13,7 +13,12 @@
 
 #include "my.h"
 
+void my_putchar(char c)
+{
+    write(1, &c, 1);
+}
+
 int eval_expr(char const *str)
 {
-        return ((ADD(&str) + SUB(&str)));
+        return (OTHEROP(&str));
 }
