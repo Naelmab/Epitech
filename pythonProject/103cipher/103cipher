@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## 103cipher
+## File description:
+## 103cipher
+##
+
+import sys
+import math
+
+
+def get_msg_bis(clear_msg, e_key_len, e_msg_len):
+    m_msg = [[0.00 for x in range(e_key_len)] for y in range(e_msg_len)]
+    c_msg_len = len(clear_msg)
+    z = 0
+
+    for y in range(e_msg_len):
+        for x in range(e_key_len):
+            if z < c_msg_len:
+                m_msg[y][x] = clear_msg[z]
+            else:
+                m_msg[y][x] = 0.00
+            z += 1
+    return m_msg
+
+
+def get_msg(clear_msg, e_key_len, e_msg_len):
+    m_msg = [[0.00 for x in range(e_key_len)] for y in range(e_msg_len)]
+    c_msg_len = len(clear_msg)
+    z = 0
+
+    for y in range(e_msg_len):
+        for x in range(e_key_len):
+            if z < c_msg_len:
+                m_msg[y][x] = ord(clear_msg[z])
+            else:
+                m_msg[y][x] = 0.00
+            z += 1
+    return m_msg
+
+
+def m_len(c_key_len):
+    size = 0
+    i = 0
+    if c_key_len == 1:
+        return 1
+    while i < c_key_len:
+        size += 1
+        i = pow(size, 2)
+    return size
+
+
+def get_key(clear_key, c_key_len, e_key_len):
+    m_key = [[0.00 for x in range(e_key_len)] for y in range(e_key_len)]
+    z = 0
+    for i in range(e_key_len):
+        for y in range(e_key_len):
+            if z < c_key_len:
+                m_key[i][y] = ord(clear_key[z])
+            else:
+                m_key[i][y] = 0.00
+            z += 1
+    return m_key
+
+
+def m_mul(m_msg, m_key, x):
+    m_len = len(m_msg)
+    result = 0
+    i = 0
+    while m_len > 0:
+        result += int(m_msg[i]) * m_key[i][x]
+        i += 1
+        m_len -= 1
+    return result
+
+
+def display(m_result, m_key, e_msg_len, e_key_len):
+    print("Key matrix:")
+    for y in range(e_key_len):
+        for x in range(e_key_len):
+            print("{:.0f}".format(m_key[y][x]), end='')
+            if x == e_key_len - 1:
+                print("\n", end='')
+            else:
+                print("\t", end='')
+    print("\nEncrypted message:")
+    for y in range(e_msg_len):
+        for x in range(e_key_len):
+            print("{:.0f}".format(m_result[y][x]), end='')
+            if y == e_msg_len - 1 and x == e_key_len - 1:
+                print("\n", end='')
+            else:
+                print(" ", end='')
+
+
+def encrypte_msg():
+    clear_key = sys.argv[2]
+    c_key_len = len(clear_key)
+    e_key_len = m_len(c_key_len)
+    clear_msg = sys.argv[1]
+    c_msg_len = len(clear_msg)
+    if c_msg_len % e_key_len == 0:
+        e_msg_len = math.floor(c_msg_len / e_key_len)
+    else:
+        e_msg_len = c_msg_len / e_key_len
+        e_msg_len = math.floor(e_msg_len) + 1
+    m_key = get_key(clear_key, c_key_len, e_key_len)
+    m_msg = get_msg(clear_msg, e_key_len, e_msg_len)
+    m_result = [[0.00 for x in range(e_key_len)] for y in range(e_msg_len)]
+
+    for y in range(e_msg_len):
+        for x in range(e_key_len):
+            m_result[y][x] = m_mul(m_msg[y], m_key, x)
+    display(m_result, m_key, e_msg_len, e_key_len)
+
+
+def display_decryption(e_key_len, m_key):
+    print("Key matrix:")
+    for y in range(e_key_len):
+        for x in range(e_key_len):
+            print("{:.3f}".format(m_key[y][x]), end='')
+            if x == e_key_len - 1:
+                print("\n", end='')
+            else:
+                print("\t", end='')
+    print("\nDecrypted message:")
+
+
+def decrypt_size_one(e_msg, m_key):
+    print("Key matrix:")
+    print(ord(sys.argv[2]), "\n")
+    print("Decrypted message:")
+    for i in range(len(e_msg)):
+        print(chr(int(int(e_msg[i]) / int(ord(sys.argv[2])))), end='')
+        if i == (len(e_msg) - 1):
+            print("\n", end='')
+
+
+def inverse_m_key_tow(m_key, e_key_len):
+    if e_key_len == 2:
+        decPlace = 3
+        new_m = [[0.00 for x in range(2)] for y in range(2)]
+        det = pow((m_key[0][0] * m_key[1][1] - m_key[0][1] * m_key[1][0]), -1)
+        new_m[0][0] = round(det * m_key[1][1], 6)
+        new_m[0][1] = round(det * m_key[0][1] * -1, 6)
+        new_m[1][0] = round(det * m_key[1][0] * -1, 6)
+        new_m[1][1] = round(det * m_key[0][0], 6)
+        return new_m
+
+
+def decrypt_size_tow(m_msg, m_key, e_msg_len, e_key_len):
+    m_key = inverse_m_key_tow(m_key, e_key_len)
+    display_decryption(e_key_len, m_key)
+    for y in range(int(e_msg_len / 2)):
+        for x in range(e_key_len):
+            nb = int(m_mul(m_msg[y], m_key, x))
+            if nb >= 32:
+                print(chr(nb), end='')
+    print("\n", end='')
+
+
+def decrypt_msg():
+    clear_key = sys.argv[2]
+    c_key_len = len(sys.argv[2])
+    e_key_len = m_len(c_key_len)
+    e_msg = sys.argv[1].split(" ")
+    m_key = get_key(clear_key, c_key_len, e_key_len)
+    m_msg = get_msg_bis(e_msg, e_key_len, len(e_msg))
+    if c_key_len == 1:
+        decrypt_size_one(e_msg, m_key)
+    elif (c_key_len <= 4):
+        decrypt_size_tow(m_msg, m_key, len(e_msg), e_key_len)
+
+
+def main():
+    if len(sys.argv) == 2 and str(sys.argv[1]) == "-h":
+        print("USAGE\n    ./103cipher message key flag\n")
+        print("DESCRIPTION\n    message\ta message, made of ASCII characters")
+        print("    key \tthe encryption key, made of ASCII characters")
+        print("    flag\t0 for the message to be encrypted, 1 to be encrypted")
+        sys.exit(0)
+    if len(sys.argv) != 4:
+        sys.exit(84);
+    if sys.argv[3] == "0":
+        encrypte_msg()
+    elif sys.argv[3] == "1":
+        decrypt_msg()
+    else:
+        sys.exit(84)
+
+
+if __name__ == "__main__":
+    main()

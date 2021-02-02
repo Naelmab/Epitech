@@ -1,0 +1,50 @@
+première chose: il faut tout initialiser, déclarer toute ces fonctions dans un "outils.c"
+#include <unistd.h>
+
+my_putchar
+my_putstr
+my_strlen
+my_swap
+my_revstr
+
+seconde chose: faire son main.c
+#include "add.h"
+
+troisième chose: faire son add.h
+#ifndef ...
+#define "="
+
+initialiser la structure avec les pointeurs de tout le programme 
+
+déclarer tout les prototypes des éléments de l'outils 
+
+#endif "="
+
+créer son add_inf.c
+#include "add.h"
+
+programme:
+initialiser tout les param de la structures (add->...=...)
+conditions:
+
+quatrième chose: faire le Makefile
+
+SRC= 		tous les .c	\
+
+OBJ= 		$(SRC:.c=.o)
+
+NAME= 		fonction principale
+
+all: 		$(OBJ)
+     		gcc -o $(NAME) $(OBJ)
+
+clean:
+		rm$(OBJ)
+
+fclean: 	clean
+		rm $(NAME)
+
+re:		fclean all
+
+.PHONY:		all fclean clean re (qui sert a eviter de repéter une commande accidentellement.
+

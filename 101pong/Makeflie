@@ -1,0 +1,30 @@
+  
+   EPITECH PROJECT, 2020
+   Makefile
+   File description:
+   Makefile
+  
+
+SRCS =      main.c\
+            101pong.c
+
+OBJS =          $(SRCS:.c=.o)
+
+NAME =              101pong
+
+RM =                rm -f
+
+CC =                   gcc
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+         $(CC) -o $(NAME) $(OBJS) -lm
+
+clean:
+    $(RM) $(OBJS)
+
+fclean: clean
+        $(RM) $(NAME)
+
+re: fclean all
