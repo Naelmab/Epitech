@@ -5,26 +5,7 @@
 ** step 2
 */
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-void    my_putchar(char c)
-{
-    write(1, &c, 1);
-}
-
-int     size_files(char const *path)
-{
-    struct stat size;
-
-    if (stat(path, &size) == 0)
-        return (size.st_size);
-    return 84;
-}
+#include "my.h"
 
 void display_500(char *str)
 {
